@@ -1,4 +1,4 @@
 rcb-pfa-autoresponder
 =====================
 
-Autoresponder plu
+Autoresponder plugin for Roundcube, postfixadmin compatible

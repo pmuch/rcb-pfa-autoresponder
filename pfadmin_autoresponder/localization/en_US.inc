@@ -6,9 +6,12 @@ $labels['autorespondersubject'] = 'Subject';
 $labels['autorespondermessage'] = 'Message';
 $labels['autoresponderexpires'] = 'Expires';
 $labels['autoresponderdate'] = 'Date';
+$labels['autoresponderdatefrom'] = 'Valid since';
 $labels['autoresponderenabled'] = 'Enabled';
 $labels['dateformat'] = 'yyyy/mm/dd';
 $labels['and'] = 'and';
+
+$labels['autoresponder'] = 'Vacation';
 
 $messages = array();
 $messages['dateformatinconsistency'] = 'Date format is inconsistent';

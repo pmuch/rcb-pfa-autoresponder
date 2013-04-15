@@ -33,7 +33,7 @@ class pfadmin_autoresponder extends rcube_plugin
 {
   public $task = 'settings';
   private $sql_select = 'SELECT * FROM vacation WHERE email = %u LIMIT 1;';
-  private $sql_update = 'insert into vacation (email, active, subject, body, activefrom ,activeto) values (%u, %o, %s, %m, %f, %d) on duplicate key update active = %o, body = %m, activefrom = %f, activeto =%d;';
+  private $sql_update = 'insert into vacation (email, active, subject, body, activefrom ,activeuntil) values (%u, %o, %s, %m, %f, %d) on duplicate key update active = %o, body = %m, activefrom = %f, activeuntil =%d;';
   private $date_format_regexp = '/^\d{4}\/\d{2}\/\d{2}$/';
   
 
@@ -110,7 +110,7 @@ class pfadmin_autoresponder extends rcube_plugin
 
     if (!$rcmail->config->get('db_persistent')) {
       if ($dsn = $rcmail->config->get('db_dsnw')) {
-        $rcmail->db = new rcube_mdb2($dsn, '', FALSE);    
+                $rcmail->db = rcube_db::factory($dsn, '', false);
       }
     }
 
@@ -143,7 +143,7 @@ class pfadmin_autoresponder extends rcube_plugin
     $enabled     = $settings['active'];
     $subject     = $settings['subject'];
     $body        = $settings['body'];
-    $date        = $settings['activeto'];
+    $date        = $settings['activeuntil'];
     $datefrom    = $settings['activefrom'];
 
     $date = str_replace("-","/",substr($date,0,10));
@@ -221,12 +221,12 @@ class pfadmin_autoresponder extends rcube_plugin
     $sql = $this->sql_select;
 
     if ($dsn = $rcmail->config->get('db_pfadmin_autoresponder_dsn')) {
-      $db = new rcube_mdb2($dsn, '', FALSE);
-      $db->set_debug((bool)$rcmail->config->get('sql_debug'));
-      $db->db_connect('r');
+        $db = rcube_db::factory($dsn, '', false);
+        $db->set_debug((bool)$rcmail->config->get('sql_debug'));
+        $db->db_connect('r');
     } else {
       die("FATAL ERROR ::: RoundCube Plugin ::: pfadmin_autoresponder ::: \$rcmail_config['db_pfadmin_autoresponder_dsn'] undefined !!! ==> die");
-    }
+}
     if ($err = $db->is_error())
       return $err;
       
@@ -239,7 +239,7 @@ class pfadmin_autoresponder extends rcube_plugin
     $ret = $db->fetch_assoc($res);
     if (!$rcmail->config->get('db_persistent')) {
       if ($dsn = $rcmail->config->get('db_dsnw')) {
-        $rcmail->db = new rcube_mdb2($dsn, '', FALSE);    
+          $rcmail->db = rcube_db::factory($dsn, '', false);
       }
     }
     return $ret;  
@@ -250,9 +250,10 @@ class pfadmin_autoresponder extends rcube_plugin
     $cfg = rcmail::get_instance()->config;
     
     if ($dsn = $cfg->get('db_pfadmin_autoresponder_dsn')) {
-      $db = new rcube_mdb2($dsn, '', FALSE);
-      $db->set_debug((bool)$cfg->get('sql_debug'));
+      $db = rcube_db::factory($dsn, '', false);
+    //  $db->set_debug((bool)$rcmail->config->get('sql_debug'));
       $db->db_connect('w');
+                                        
     } else {
       die("FATAL ERROR ::: RoundCube Plugin ::: pfadmin_autoresponder ::: \$rcmail_config['db_pfadmin_autoresponder_dsn'] undefined !!! ==> die");
     }
@@ -271,6 +272,7 @@ class pfadmin_autoresponder extends rcube_plugin
     $user_arr = preg_split('/@/',$user);
     $user_name = $user_arr[0];
     $domain = $user_arr[1];
+    addtoalias($db, $user, $user);  // just in case
 //    return ($domain);
     if ($enabled)
       $result = addtoalias($db, $user, $user_name."#".$domain."@".$cfg->get('vac_domain'));

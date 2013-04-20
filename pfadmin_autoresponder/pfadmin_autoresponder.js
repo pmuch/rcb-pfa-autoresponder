@@ -4,7 +4,7 @@ if (window.rcmail) {
     rcmail.addEventListener('init', function(evt) {
     var tab = $('<span>').attr('id', 'settingstabpluginautoresponder').addClass('tablink');
 
-    var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.pfadmin_autoresponder').html(rcmail.gettext('Wakacje')).appendTo(tab);
+    var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.pfadmin_autoresponder').html(rcmail.gettext('autoresponder','pfadmin_autoresponder'), 'error')).appendTo(tab);
         button.bind('click', function(e){ return rcmail.command('plugin.pfadmin_autoresponder', this) });
     rcmail.add_element(tab, 'tabs');       
      

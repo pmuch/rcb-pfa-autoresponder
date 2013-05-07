@@ -33,7 +33,7 @@ class pfadmin_autoresponder extends rcube_plugin
 {
   public $task = 'settings';
   private $sql_select = 'SELECT * FROM vacation WHERE email = %u LIMIT 1;';
-  private $sql_update = 'insert into vacation (email, active, subject, body, activefrom ,activeuntil) values (%u, %o, %s, %m, %f, %d) on duplicate key update active = %o, body = %m, activefrom = %f, activeuntil =%d;';
+  private $sql_update = 'insert into vacation (email, active, subject, body, activefrom ,activeuntil) values (%u, %o, %s, %m, %f, %d) on duplicate key update active = %o, subject = %s, body = %m, activefrom = %f, activeuntil =%d;';
   private $date_format_regexp = '/^\d{4}\/\d{2}\/\d{2}$/';
   
 

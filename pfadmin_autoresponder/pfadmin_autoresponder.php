@@ -7,14 +7,14 @@
  *
  * @version 2.0 - 31.07.2009
  * @author Pawel Muszynski pawel@prolin.pl
- * @author Grzegorz Marsza³ek graf0@post.pl
+ * @author Grzegorz MarszaÂ³ek graf0@post.pl
  * @website http://www.prolin.pl
  * @licence GNU GPL
  *
  * Requirements: Postfixadmin
  *
  * Changelog
- * 2.0 - 2012.07.27 - Fixed SQL, Larry skin comatible (thanks to Grzegorz Marsza³ek) 
+ * 2.0 - 2012.07.27 - Fixed SQL, Larry skin comatible (thanks to Grzegorz MarszaÂ³ek) 
  * 1.0 - 2009.07.31 - Initial release
  *
  **/
@@ -33,7 +33,7 @@ class pfadmin_autoresponder extends rcube_plugin
 {
   public $task = 'settings';
   private $sql_select = 'SELECT * FROM vacation WHERE email = %u LIMIT 1;';
-  private $sql_update = 'insert into vacation (email, active, subject, body, activefrom ,activeuntil) values (%u, %o, %s, %m, %f, %d) on duplicate key update active = %o, body = %m, activefrom = %f, activeuntil =%d;';
+  private $sql_update = 'insert into vacation (email, active, subject, body, activefrom ,activeuntil) values (%u, %o, %s, %m, %f, %d) on duplicate key update active = %o, body = %m, activefrom = %f, activeuntil =%d, subject= %s;';
   private $date_format_regexp = '/^\d{4}\/\d{2}\/\d{2}$/';
   
 
